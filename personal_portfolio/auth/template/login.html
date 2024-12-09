@@ -1,0 +1,32 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/login.css') }}">
+</head>
+<body>
+    <section class="login-section">
+        <div class="login-container">
+            <h1>Login</h1>
+            <form action="{{ url_for('auth.login') }}" method="POST">
+                <div class="form-group">
+                    <input type="text" name="username" placeholder="Enter your username">
+                    {% if user_found_error %}
+                        <p class="error">{{ user_found_error }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Enter your password">
+                    {% if wrong_pass %}
+                        <p class="error">{{ wrong_pass }}</p>
+                    {% endif %}
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

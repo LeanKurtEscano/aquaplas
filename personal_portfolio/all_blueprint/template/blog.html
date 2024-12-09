@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='blog/blog.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1>My OOP in Python Activities</h1>
+    <div class="grid-container">
+     
+      {% for i in range(0, 6) %}
+        <a href="{{ colab_links[i] }}" target="_blank">
+          <div class="card">
+            <img src="{{ url_for('static', filename='blog/activity' ~ (i+1) ~ '.png') }}" alt="Activity {{ i+1 }}">
+            <div class="activity-title">Activity {{ i+1 }}</div>
+          </div>
+        </a>
+      {% endfor %}
+  
+      {% for i in range(6, 9) %}
+        <a href="{{ colab_links[i] }}" target="_blank">
+          <div class="card">
+            <div class="voucher-text">Voucher</div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+</div>
+{% endblock %}

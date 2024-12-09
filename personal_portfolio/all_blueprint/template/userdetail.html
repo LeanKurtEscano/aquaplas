@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='profile/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+  
+  <header>User Profile</header>
+
+ 
+  <div class="profile-container">
+    <div><strong>First Name:</strong> {{ user['firstname'] }}</div>
+    <div><strong>Middle Name:</strong> {{ user['middlename'] }}</div>
+    <div><strong>Last Name:</strong> {{ user['lastname'] }}</div>
+    <div><strong>Birthday:</strong> {{ user['birthday'] }}</div>
+    <div><strong>Age:</strong> {{ user['age'] }}</div>
+    <div><strong>Contact:</strong> {{ user['contact'] }}</div>
+    <div><strong>Email:</strong> {{ user['email'] }}</div>
+    <!-- Navigation Button -->
+    <a href="{{ url_for('cr.render_update',id = user['user_id']) }}" class="btn">Update User</a>
+    <a href="{{ url_for('cr.read') }}" class="text-link">Go Back?</a>
+
+  </div>
+
+{% endblock %}

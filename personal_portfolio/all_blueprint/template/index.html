@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='home/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <header>
+    <div class="intro">
+      <div class="profile-image">
+        <img src="https://via.placeholder.com/200" alt="Sarah Ramos" />
+      </div>
+      <div class="info">
+        <h1 class="intro">Welcome!</h1>
+        <h2>Hello, I'm Sarah Ramos</h2>
+        <p>
+          A 2nd Year BS Information Technology Student majoring in System Development. I have a passion for web design and creating clean, user-friendly websites. I enjoy learning new skills and bringing creative ideas to life.
+        </p>
+      </div>
+    </div>
+  </header>
+</div>
+
+<section class="about-me">
+  <h2>About Me</h2>
+  <div class="about-content">
+    <div class="about-image">
+      <img src="https://via.placeholder.com/150" alt="About Sarah" />
+    </div>
+    <div class="about-text">
+      <p>
+        I am a dedicated and enthusiastic individual with a knack for problem-solving and a keen interest in technology. My journey in IT has equipped me with skills in web development, system design, and user experience optimization. Beyond academics, I love exploring creative avenues such as graphic design and photography.
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

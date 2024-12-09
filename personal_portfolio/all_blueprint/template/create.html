@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='update/update.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <div class="form-container">
+        <h1>Update Information</h1>
+        <form action="{{ url_for('cr.create') }}" method="POST">
+
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" id="firstname" name="firstname" value="{{ form_data['firstname'] }}" required>
+                {% if errors['firstname'] %}
+                <p class="error-message">{{ errors['firstname'] }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="middlename">Middle Name</label>
+                <input type="text" id="middlename" name="middlename" value="{{ form_data['middlename'] }}">
+                {% if errors['middlename'] %}
+                <p class="error-message">{{ errors['middlename'] }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" id="lastname" name="lastname" value="{{ form_data['lastname'] }}" required>
+                {% if errors['lastname'] %}
+                <p class="error-message">{{ errors['lastname'] }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="birthday">Birthday</label>
+                <input type="date" id="birthday" name="birthday" value="{{ form_data['birthday'] }}" required>
+                {% if errors['birthday'] %}
+                <p class="error-message">{{ errors['birthday'] }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" value="{{ form_data['age'] }}" required>
+                {% if errors['age'] %}
+                <p class="error-message">{{ errors['age'] }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Contact</label>
+                <input type="tel" id="contact" name="contact" value="{{ form_data['contact'] }}" required>
+                {% if errors['contact'] %}
+                <p class="error-message">{{ errors['contact'] }}</p>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ form_data['email'] }}" required>
+                {% if errors['email'] %}
+                <p class="error-message">{{ errors['email'] }}</p>
+                {% endif %}
+            </div>
+
+            <button type="submit">Create</button>
+            <a href="{{ url_for('cr.read') }}" class="text-link">Go Back to User Management?</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

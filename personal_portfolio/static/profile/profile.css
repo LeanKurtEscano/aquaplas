@@ -1,0 +1,123 @@
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+    
+  /* Body Styling */
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #101013;
+    color: #efefef;
+    line-height: 1.6;
+  
+  }
+    
+  /* Profile Section */
+  header {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    animation: fadeIn 1s ease-in-out;
+  }
+    
+  /* Profile Data Section */
+  .profile-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #282828;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.6);
+    animation: slideIn 0.7s ease-out;
+  }
+    
+  /* Display User Info */
+  .profile-container div {
+    margin: 10px 0;
+    font-size: 1.1rem;
+  }
+    
+  /* Styled Button */
+  .btn {
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+    padding: 10px 0;
+    text-align: center;
+    color: #fff;
+    background-color: #877ac7;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button Hover Animation - Adjusted Scale */
+  .btn:hover {
+    background-color: #7568b2;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .profile-container {
+      padding: 10px;
+    }
+  
+    header {
+      font-size: 1.7rem;
+    }
+  
+    .btn {
+      font-size: 0.9rem;
+    }
+  
+    .profile-container div {
+      font-size: 1rem;
+    }
+  }
+    
+  /* Animations */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+  
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+
+  /* Text Link Styling */
+.text-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #877ac7;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+
+
+

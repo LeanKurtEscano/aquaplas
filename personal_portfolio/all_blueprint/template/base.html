@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}<title>Dashboard</title>{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/style.css') }}">
+    {% block head %}{% endblock %} <!-- Additional CSS for specific pages -->
+</head>
+
+<body>
+    <div class="nav">
+        <!-- Hidden checkbox to handle navbar toggle -->
+        <input type="checkbox" id="nav-check">
+
+        <!-- Navbar Header -->
+        <div class="nav-header">
+            <div class="nav-title">Dashboard</div>
+        </div>
+
+        <!-- Hamburger Menu Button -->
+        <div class="nav-btn">
+            <label for="nav-check" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>
+
+        
+        <div class="nav-links">
+            <a href="{{ url_for('blueprint.index') }}">Home</a>
+            <a href="{{ url_for('pr.get_profile') }}">Profile</a>
+            <a href="{{ url_for('bl.display_blog') }}">Blog</a>
+            <a href="{{ url_for('cr.read') }}">Users</a>
+            <a href="{{ url_for('auth.logout') }}" onclick="return confirm('Are you sure you want to logout?')" class="log-out">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content Block -->
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>

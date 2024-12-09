@@ -1,0 +1,137 @@
+/* General Page Background */
+body {
+    background-color: #101013;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Section Container */
+.table-container {
+    padding: 20px;
+}
+
+/* Style Table */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    overflow-x: auto; /* Enable scrolling for smaller viewports */
+}
+
+/* Style Header Row */
+.table .header {
+    background-color: #877ac7;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* General Table Row Style */
+.table td {
+    padding: 10px;
+    border: 1px solid #555555;
+    text-align: center;
+}
+
+/* Add hover effect for interactivity */
+.table tr:hover {
+    background-color: #333;
+}
+
+/* Add User Section */
+.add-user-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Add User Button */
+.add-button {
+    display: inline-block;
+    background-color: #877ac7;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #675ca3;
+}
+
+
+.fa-edit {
+    color: #877ac7; /* Blue */
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.fa-edit:hover {
+    color: #675ca3; /* Slightly darker blue on hover */
+}
+
+/* Style Delete Button */
+.fa-trash {
+    color: red; /* Red color */
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.fa-trash:hover {
+    color: darkred; /* Darker red on hover */
+}
+/* Style Icons */
+.fa {
+    margin-right: 5px;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    /* Adjust table to scroll horizontally if needed */
+    .table-container {
+        overflow-x: auto;
+        padding: 10px;
+    }
+
+    .table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    /* Adjust the table header visibility for better mobile experience */
+    .table .header {
+        font-size: 14px;
+    }
+
+    /* Resize button for smaller devices */
+    .add-button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    
+    h1 {
+        font-size: 20px;
+    }
+
+    .table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .table .header {
+        font-size: 12px;
+    }
+
+    .add-button {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
