@@ -18,39 +18,50 @@ def make_header(response):
     response.headers['Expires'] = '0'
     return response
 
-def login_required(func):
-    def wrapper(*args, **kwargs):
-        if 'loggedIn' not in session:
-            return redirect(url_for('auth.login'))  
-        response = func(*args, **kwargs)
-        return make_header(response)
-    return wrapper
-
 def connect_db():
     return mysql.connector.connect(**db_config)
 
+from flask import session, redirect, url_for, make_response, render_template
+
 @pr.route('/profile', methods=["GET"])
 def get_profile():
+  
+    if 'loggedIn' not in session or not session['loggedIn']:
+     
+        return redirect(url_for('auth.login'))
+    
    
     conn = connect_db()
-    cursor = conn.cursor(dictionary=True)  
-
+    cursor = conn.cursor(dictionary=True)
+    
+    
     cursor.execute("SELECT * FROM tb_sarah WHERE id = 1")
-    user = cursor.fetchone()  
+    user = cursor.fetchone()
     cursor.close()
     conn.close()
-  
-    return render_template('profile.html', user=user)
     
+  
+    response = make_response(render_template('profile.html', user=user))
+    
+   
+    response = make_header(response)
+    
+    return response
+
+
+from flask import session, redirect, url_for, make_response, render_template, request
 
 @pr.route('/update', methods=["GET", "POST"])
 def user_update():
     try:
       
-        id = 1  
+        if 'loggedIn' not in session or not session['loggedIn']:
+            return redirect(url_for('auth.login'))
         
+        id = 1  
+
         if request.method == "POST":
-            
+           
             form_data = {
                 'firstname': request.form.get('firstname', '').strip(),
                 'middlename': request.form.get('middlename', '').strip(),
@@ -61,6 +72,7 @@ def user_update():
                 'email': request.form.get('email', '').strip(),
             }
 
+           
             age = int(form_data['age']) if form_data['age'].isdigit() else None
 
            
@@ -74,14 +86,15 @@ def user_update():
                 "email": validate_email(form_data['email']),
             }
 
-            # Filter out empty error messages
+           
             errors = {field: msg for field, msg in errors.items() if msg}
 
-            # If there are validation errors, re-render the form with entered data and errors
+          
             if errors:
-                return render_template('update.html', form_data=form_data, errors=errors)
+                response = make_response(render_template('update.html', form_data=form_data, errors=errors))
+                return make_header(response)
 
-            # Perform database update if POST is valid
+           
             conn = mysql.connector.connect(**db_config)
             cursor = conn.cursor()
             update_query = (
@@ -102,47 +115,36 @@ def user_update():
             cursor.close()
             conn.close()
 
-            
+           
             return redirect(url_for('pr.get_profile'))
 
-     
-        conn = connect_db()  
+       
+        conn = connect_db()
         cursor = conn.cursor(dictionary=True)
         select_query = "SELECT * FROM tb_sarah WHERE id = %s"
         cursor.execute(select_query, (id,))
         user_data = cursor.fetchone()
-        
-        # If no user is found, pass empty defaults to the template
-        if not user_data:
-            form_data = {
-                'firstname': '',
-                'middlename': '',
-                'lastname': '',
-                'birthday': '',
-                'age': '',
-                'contact': '',
-                'email': ''
-            }
-        else:
-            # Map the fetched data to form fields
-            form_data = {
-                'firstname': user_data.get('firstname', ''),
-                'middlename': user_data.get('middlename', ''),
-                'lastname': user_data.get('lastname', ''),
-                'birthday': user_data.get('birthday', ''),
-                'age': user_data.get('age', ''),
-                'contact': user_data.get('contact', ''),
-                'email': user_data.get('email', '')
-            }
+
+
+        form_data = {
+            'firstname': user_data.get('firstname', '') if user_data else '',
+            'middlename': user_data.get('middlename', '') if user_data else '',
+            'lastname': user_data.get('lastname', '') if user_data else '',
+            'birthday': user_data.get('birthday', '') if user_data else '',
+            'age': user_data.get('age', '') if user_data else '',
+            'contact': user_data.get('contact', '') if user_data else '',
+            'email': user_data.get('email', '') if user_data else '',
+        }
 
         cursor.close()
         conn.close()
 
-        # Render the form template with fetched data
-        return render_template('update.html', form_data=form_data, errors={})
+       
+        response = make_response(render_template('update.html', form_data=form_data, errors={}))
+        return make_header(response)
 
     except Exception as e:
-        # Handle exceptions and show error in case of failure
+        
         error_message = f"An unexpected error occurred: {str(e)}"
         form_data = {
             'firstname': '',
@@ -153,10 +155,10 @@ def user_update():
             'contact': '',
             'email': ''
         }
-        return render_template('update.html', form_data=form_data, errors={"general": error_message})
+        response = make_response(render_template('update.html', form_data=form_data, errors={"general": error_message}))
+        return make_header(response)
 
 
 @pr.route('/update-page', methods=["GET"])
-
 def update_page():
-    return redirect(url_for('pr.update'))
+    return redirect(url_for('pr.user_update'))
