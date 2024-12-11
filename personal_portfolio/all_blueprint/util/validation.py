@@ -1,54 +1,178 @@
 import re
 from datetime import datetime
 
-def validate_first_name(first_name: str) -> str:
-    regex = r'^[A-Za-z\s]+$'
-    repeated_char_regex = r'(.)\1{2,}'
-    max_length = 20
 
+def validate_first_name(first_name: str) -> str:
+    regex = r'^[A-Z][a-z]*([ ]([A-Z][a-z]*))*$'  # Proper capitalization rule
+    invalid_chars_regex = r'[^A-Za-z\s]'  # Checks for special characters or numbers
+    repeated_char_regex = r'(.)\1{2,}'  # Checks for repeated characters
+    max_length = 20
+    repeated_word_pattern = r'^(\b\w+\b)(?:\s+\1){1}$'  # Regex to allow exactly two occurrences of the same word (e.g., "Jan Jan")
+
+    random_combination_regex = r'^[A-Za-z]+([ ]([A-Z][a-z]*))*$'
+    words = first_name.strip().split()  # Splits by any whitespace
+
+    # If the name consists of a single word and the length of that word is greater than 10
+    if len(words) == 1 and len(first_name) > 10:
+        # Regex to prevent a single unstructured word (e.g., random characters, no spaces, too long)
+        unstructured_regex = r'^[a-zA-Z]+$'  # Ensures only letters, no spaces, and no special characters
+        if re.match(unstructured_regex, first_name):
+            return "Name must not consist of a single unstructured word with more than 10 characters."
+
+    # Prevent long sequences of characters that appear random
+    random_sequence_regex = r'([a-zA-Z])\1{3,}'  # Looks for sequences of the same letter repeated more than 3 times
+
+    # Check if the first name is empty
     if not first_name:
         return "First name is required."
-    if not re.match(regex, first_name.strip()):
+
+    # Check for invalid characters like numbers or special characters
+    if re.search(invalid_chars_regex, first_name.strip()):
         return "First name must not contain special characters or numbers."
+
+    # Validate capitalization rule (only first letters are capitalized properly)
+    if not re.match(regex, first_name.strip()):
+        return "Capitalization is allowed only at the start of each word in name"
+
+    # Check if the name length is within the valid range
     if len(first_name.strip()) < 2:
         return "First name must be at least 2 characters long."
     if len(first_name.strip()) > max_length:
         return f"First name must be at most {max_length} characters long."
-    if re.search(repeated_char_regex, first_name.strip()):
+
+    lower_case_name = first_name.strip().lower()
+
+    # Check for random 2- or 3-letter combinations, but allow the first word to be random
+    if re.match(random_combination_regex, first_name.strip()):
+        pass  # No need to check for random combinations after the first word
+    else:
+        return "First name must not contain random two letter combinations"
+
+    # Check for long sequences of the same character (e.g., "aaaa")
+    if re.search(random_sequence_regex, first_name.strip()):
+        return "First name must not contain long sequences of the same character."
+
+    # Check for repeated characters
+    if re.search(repeated_char_regex, lower_case_name):
         return "First name must not contain repeated characters."
+
+    # Check for exactly two repeated words (e.g., "Jan Jan")
+    if re.match(repeated_word_pattern, first_name.strip()):
+        return ""  # Allow repeated valid names (e.g., "Jan Jan")
+
+    # Check for other invalid duplicated patterns (three or more repetitions)
+    three_or_more_repeats_pattern = r'(\b\w+\b)(?:\s+\1){2,}'  # Three or more occurrences
+    if re.search(three_or_more_repeats_pattern, first_name.strip()):
+        return "First name must not contain duplicated patterns"
+
     return ""
+
 
 def validate_middle_name(middle_name: str) -> str:
-    regex = r'^[A-Za-z\s]+$'
+    regex = r'^[A-Z][a-z]*([ ]([A-Z][a-z]*))*$'
+    invalid_chars_regex = r'[^A-Za-z\s]'
     repeated_char_regex = r'(.)\1{2,}'
     max_length = 20
+    repeated_word_pattern = r'^(\b\w+\b)(?:\s+\1){1}$'
 
-    if middle_name:
-        if not re.match(regex, middle_name.strip()):
-            return "Middle name must not contain special characters or numbers."
-        if len(middle_name.strip()) < 2:
-            return "Middle name must be at least 2 characters long."
-        if len(middle_name.strip()) > max_length:
-            return f"Middle name must be at most {max_length} characters long."
-        if re.search(repeated_char_regex, middle_name.strip()):
-            return "Middle name must not contain repeated characters."
+    random_combination_regex = r'^[A-Za-z]+([ ]([A-Z][a-z]*))*$'
+    words = middle_name.strip().split()
+
+    if len(words) == 1 and len(middle_name) > 10:
+        unstructured_regex = r'^[a-zA-Z]+$'
+        if re.match(unstructured_regex, middle_name):
+            return "Middle name must not consist of a single unstructured word with more than 10 characters."
+
+    random_sequence_regex = r'([a-zA-Z])\1{3,}'
+
+    if not middle_name:
+        return "Middle name is required."
+
+    if re.search(invalid_chars_regex, middle_name.strip()):
+        return "Middle name must not contain special characters or numbers."
+
+    if not re.match(regex, middle_name.strip()):
+        return "Capitalization is allowed only at the start of each word in name"
+
+    if len(middle_name.strip()) < 2:
+        return "Middle name must be at least 2 characters long."
+    if len(middle_name.strip()) > max_length:
+        return f"Middle name must be at most {max_length} characters long."
+
+    lower_case_name = middle_name.strip().lower()
+
+    if re.match(random_combination_regex, middle_name.strip()):
+        pass
+    else:
+        return "Middle name must not contain random two letter combinations"
+
+    if re.search(random_sequence_regex, middle_name.strip()):
+        return "Middle name must not contain long sequences of the same character."
+
+    if re.search(repeated_char_regex, lower_case_name):
+        return "Middle name must not contain repeated characters."
+
+    if re.match(repeated_word_pattern, middle_name.strip()):
+        return ""
+
+    three_or_more_repeats_pattern = r'(\b\w+\b)(?:\s+\1){2,}'
+    if re.search(three_or_more_repeats_pattern, middle_name.strip()):
+        return "Middle name must not contain duplicated patterns"
+
     return ""
 
+
 def validate_last_name(last_name: str) -> str:
-    regex = r'^[A-Za-z\s]+$'
+    regex = r'^[A-Z][a-z]*([ ]([A-Z][a-z]*))*$'
+    invalid_chars_regex = r'[^A-Za-z\s]'
     repeated_char_regex = r'(.)\1{2,}'
     max_length = 20
+    repeated_word_pattern = r'^(\b\w+\b)(?:\s+\1){1}$'
+
+    random_combination_regex = r'^[A-Za-z]+([ ]([A-Z][a-z]*))*$'
+    words = last_name.strip().split()
+
+    if len(words) == 1 and len(last_name) > 10:
+        unstructured_regex = r'^[a-zA-Z]+$'
+        if re.match(unstructured_regex, last_name):
+            return "Last name must not consist of a single unstructured word with more than 10 characters."
+
+    random_sequence_regex = r'([a-zA-Z])\1{3,}'
 
     if not last_name:
         return "Last name is required."
-    if not re.match(regex, last_name.strip()):
+
+    if re.search(invalid_chars_regex, last_name.strip()):
         return "Last name must not contain special characters or numbers."
+
+    if not re.match(regex, last_name.strip()):
+        return "Capitalization is allowed only at the start of each word in name"
+
     if len(last_name.strip()) < 2:
         return "Last name must be at least 2 characters long."
     if len(last_name.strip()) > max_length:
         return f"Last name must be at most {max_length} characters long."
-    if re.search(repeated_char_regex, last_name.strip()):
+
+    lower_case_name = last_name.strip().lower()
+
+    if re.match(random_combination_regex, last_name.strip()):
+        pass
+    else:
+        return "Last name must not contain random two letter combinations"
+
+    if re.search(random_sequence_regex, last_name.strip()):
+        return "Last name must not contain long sequences of the same character."
+
+    if re.search(repeated_char_regex, lower_case_name):
         return "Last name must not contain repeated characters."
+
+    if re.match(repeated_word_pattern, last_name.strip()):
+        return ""  
+
+    three_or_more_repeats_pattern = r'(\b\w+\b)(?:\s+\1){2,}'
+    if re.search(three_or_more_repeats_pattern, last_name.strip()):
+        return "Last name must not contain duplicated patterns"
+
     return ""
 
 def validate_birthday(birthday: str, age: int) -> str:
